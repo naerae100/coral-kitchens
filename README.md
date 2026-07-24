@@ -1,29 +1,80 @@
-# Welcome to your Lovable project
+# Coral Kitchens
 
-This project was built with [Lovable](https://lovable.dev).
+Marketing site for [Coral Kitchens](https://www.coralkitchens.com.au) — a custom
+kitchen manufacturer in Smithfield, Western Sydney. Design, manufacture and
+installation, plus cut-to-size panels, custom door profiles and precision
+joinery for residential and commercial projects.
 
-## Build with Lovable
-
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+Built with TanStack Start, React 19, Tailwind CSS 4 and three.js.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Requires Node.js 20+.
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+bun install     # or: npm install
+bun dev         # or: npm run dev
 ```
 
-## Built with
+The site runs at http://localhost:8080.
 
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
+| Command   | Does                       |
+| --------- | -------------------------- |
+| `dev`     | Vite dev server            |
+| `build`   | Production build           |
+| `preview` | Serve the production build |
+| `lint`    | ESLint + Prettier          |
+| `format`  | Rewrite with Prettier      |
+
+## Deploying
+
+Nitro picks its target from the environment, so the same commit deploys to
+either host without a config change:
+
+- **Vercel** — `VERCEL=1` is set automatically during Vercel builds, which
+  selects the `vercel` preset and emits `.vercel/output` (Build Output API v3).
+  No `vercel.json` is needed; leave the framework preset on **Other** and the
+  build command as `npm run build`.
+- **Anywhere else, including Lovable** — falls back to `cloudflare-module` and
+  emits `wrangler.json`.
+
+See [`vite.config.ts`](vite.config.ts).
+
+### Environment variables
+
+| Variable              | Required               | Purpose                                                                                                                          |
+| --------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `ENQUIRY_WEBHOOK_URL` | **Yes, in production** | Where contact-form submissions are POSTed as JSON. Works with Zapier, Make, n8n, a Slack incoming webhook, or your own endpoint. |
+
+> [!IMPORTANT]
+> Without `ENQUIRY_WEBHOOK_URL` the enquiry form still returns success to the
+> visitor, but the submission is only written to the server log — **leads will
+> not reach an inbox**. Set it before pointing real traffic at the site.
+> See [`src/lib/enquiry.ts`](src/lib/enquiry.ts).
+
+## Structure
+
+```
+src/
+  components/
+    three/        3D kitchen: model, materials, scene, stage
+    effects/      Scroll progress, line reveals, magnetic buttons, counters
+    ui/           shadcn/ui primitives
+  config/site.ts  Business details, services, structured data
+  lib/enquiry.ts  Contact form schema + server function
+  routes/         TanStack Start file routes
+public/kitchens/  Coral Kitchens photography
+```
+
+The 3D kitchen in the Workshop section is modelled to scale from one of the
+studio's own shaker installs. Its textures are generated procedurally at
+runtime, so there are no texture files to download.
+
+## Before launch
+
+Values still to confirm in [`src/config/site.ts`](src/config/site.ts):
+
+- **Opening hours** — the Google listing confirms a 5pm weekday close, but the
+  opening time and weekend rows are placeholders.
+- **Social links** — currently point at the Instagram and Facebook homepages.
+- **Canonical domain** — confirm `url` matches where this is actually served.
