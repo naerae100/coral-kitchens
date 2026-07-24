@@ -14,7 +14,6 @@ export const site = {
     "Coral Kitchens designs, manufactures and installs custom kitchens from our Smithfield workshop in Western Sydney. Cut-to-size panels, custom cabinet door profiles and precision joinery for residential and commercial projects.",
   url: "https://www.coralkitchens.com.au", // TODO: confirm this is the canonical domain
 
-  founder: "Jessie Karen",
   email: "admin@coralkitchens.com.au",
   phoneDisplay: "0470 695 498",
   phoneHref: "tel:+61470695498",
@@ -112,7 +111,6 @@ export function businessJsonLd(imageUrls: string[]) {
     "@id": `${site.url}/#business`,
     additionalType: "https://schema.org/Manufacturer",
     name: site.name,
-    founder: { "@type": "Person", name: site.founder },
     description: site.description,
     url: site.url,
     email: site.email,

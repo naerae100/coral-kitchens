@@ -631,22 +631,21 @@ function About() {
           <RevealLines
             className="mt-6 text-[clamp(2rem,4.4vw,3.4rem)]"
             lines={[
-              <>Founded by someone</>,
+              <>Built in-house,</>,
               <>
-                who still <span className="serif-italic text-accent">builds them</span>.
+                start to <span className="serif-italic text-accent">finish</span>.
               </>,
             ]}
           />
           <p className="mt-8 text-lg text-muted-foreground leading-relaxed reveal">
-            {site.name} was founded by {site.founder}, who lives and breathes custom kitchens and
-            cabinetry. The business was built on a simple idea: do genuinely high-quality work and
-            price it honestly.
+            {site.name} is a manufacturer first. We design, build and install from our own workshop
+            in {site.address.suburb} — the same team from the first measure to the final handle.
+            There's no factory in the middle, and no one to hold responsible but us.
           </p>
           <p className="mt-5 text-muted-foreground leading-relaxed reveal">
-            We can do that because we manufacture in our own {site.address.suburb} workshop rather
-            than outsourcing to a factory and adding a margin. Materials come from trusted local and
-            international suppliers, and everything we supply is covered for {site.warrantyMonths}{" "}
-            months.
+            Because we make everything ourselves rather than outsourcing and adding a margin, we can
+            do genuinely high-quality work and price it honestly. Everything we supply is covered for{" "}
+            {site.warrantyMonths} months.
           </p>
           <div className="mt-10 reveal">
             <PrimaryLink href="#contact">Talk to us</PrimaryLink>
