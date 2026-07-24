@@ -1,0 +1,386 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Instrument Sans", "Inter", system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+  --font-sans: "Instrument Sans", "Inter", system-ui, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
+  --radius-2xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ink: var(--ink);
+}
+
+/*
+ * Warm paper, near-black ink, and a dusty coral drawn from the company name.
+ * The coral is used sparingly — rules, numerals and one word per heading — so it
+ * reads as a signature rather than decoration.
+ */
+:root {
+  --radius: 0.125rem;
+
+  /* Warm paper rather than white. A near-white page with near-white panels gave
+     no sense of section at all — these two now read as distinct bands. */
+  --background: oklch(0.966 0.006 82);
+  --foreground: oklch(0.195 0.009 55); /* near-black, warm */
+  --ink: oklch(0.195 0.009 55);
+  --card: oklch(0.928 0.01 78); /* raised panel */
+  --card-foreground: oklch(0.205 0.008 55);
+  --popover: oklch(0.985 0.004 85);
+  --popover-foreground: oklch(0.205 0.008 55);
+  --primary: oklch(0.205 0.008 55);
+  --primary-foreground: oklch(0.985 0.004 85);
+  --secondary: oklch(0.94 0.008 80);
+  --secondary-foreground: oklch(0.205 0.008 55);
+  --muted: oklch(0.94 0.008 80);
+  --muted-foreground: oklch(0.475 0.015 55); /* AA on paper */
+  --accent: oklch(0.605 0.135 33); /* dusty coral */
+  --accent-foreground: oklch(0.99 0.004 85);
+  --destructive: oklch(0.55 0.19 27);
+  --destructive-foreground: oklch(0.99 0.004 85);
+  --border: oklch(0.195 0.009 55 / 16%);
+  --input: oklch(0.205 0.008 55 / 20%);
+  --ring: oklch(0.605 0.135 33 / 55%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* The header is fixed — without this, anchored headings land underneath it. */
+    scroll-padding-top: 6rem;
+    background-color: var(--color-background);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+  /* On the inverted panels the coral ring is too low-contrast. */
+  .on-dark :focus-visible {
+    outline-color: var(--color-background);
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-accent-foreground);
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+
+/* ── Utilities ─────────────────────────────────────────────────────────── */
+
+@utility hairline {
+  height: 1px;
+  background: currentColor;
+  opacity: 0.3;
+}
+
+@utility eyebrow {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-weight: 500;
+  color: var(--color-muted-foreground);
+}
+
+@utility serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100%;
+  z-index: 100;
+  background: var(--color-accent);
+  color: var(--color-accent-foreground);
+  padding: 0.75rem 1.25rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ── Reading progress ──────────────────────────────────────────────────── */
+
+.progress-rail {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  height: 2px;
+  z-index: 60;
+  pointer-events: none;
+}
+.progress-bar {
+  height: 100%;
+  width: 100%;
+  background: var(--color-accent);
+  transform-origin: 0 50%;
+  transform: scaleX(var(--progress, 0));
+}
+
+/* ── Line-by-line heading reveal ───────────────────────────────────────── */
+
+.reveal-line {
+  display: block;
+  overflow: hidden;
+  /*
+   * The mask has to clear the descenders. With a 1.02 line-height the g, p and y
+   * hang below the line box, and overflow:hidden would slice them off. The
+   * padding opens the mask; the equal negative margin keeps the layout identical.
+   */
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+.reveal-line > span {
+  display: block;
+  transform: translateY(105%);
+  transition: transform 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--delay, 0ms);
+}
+.reveal-lines.is-visible .reveal-line > span {
+  transform: translateY(0);
+}
+
+/* ── Scroll-driven photography ─────────────────────────────────────────── */
+
+/*
+ * The clip lives on .scroll-clip, never on .scroll-frame itself: .scroll-frame is
+ * what the IntersectionObserver watches, and an element clipped to zero height
+ * reports zero intersection area, so it would never cross the threshold that
+ * triggers this very reveal.
+ */
+.scroll-clip {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 1.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.scroll-frame.is-open .scroll-clip {
+  clip-path: inset(0 0 0 0);
+}
+
+/*
+ * The image is deliberately taller than its frame so it can drift without ever
+ * exposing an edge. --p is written by the shared rAF loop in ScrollImage.tsx.
+ */
+.scroll-frame-img {
+  --p: 0;
+  height: 118%;
+  top: -9%;
+  transform: translate3d(0, calc(var(--p) * 7%), 0);
+  will-change: transform;
+}
+
+/* ── Reveals ───────────────────────────────────────────────────────────── */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Magnetic buttons ──────────────────────────────────────────────────── */
+
+.magnetic {
+  transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.magnetic.is-pulled {
+  transition-duration: 0.12s;
+}
+
+/* Underline that draws from the left on hover. */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* ── Keyframes ─────────────────────────────────────────────────────────── */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* Very slow push on the hero photograph — enough that the panel is not dead,
+   not so much that it reads as a slideshow. */
+@keyframes hero-drift {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.1) translate3d(-1%, -1%, 0);
+  }
+}
+.animate-hero-drift {
+  animation: hero-drift 24s ease-in-out infinite alternate;
+}
+
+.animate-fade-up {
+  animation: fade-up 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-fade-in {
+  animation: fade-in 1.2s ease-out both;
+}
+.animate-marquee {
+  animation: marquee-x 52s linear infinite;
+}
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+/*
+ * Vestibular disorders make parallax and drifting imagery genuinely unpleasant.
+ * Honour the OS setting: keep the layout, drop the motion. Anything that relies
+ * on a reveal to become visible is forced on, or the page would read as empty.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .reveal-line > span {
+    transform: none !important;
+  }
+
+  .scroll-clip {
+    clip-path: none !important;
+  }
+
+  .scroll-frame-img {
+    height: 100% !important;
+    top: 0 !important;
+    transform: none !important;
+  }
+
+  .magnetic {
+    transform: none !important;
+  }
+
+  .animate-marquee,
+  .animate-float-slow,
+  .animate-hero-drift {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Coral Kitchens">
+  <title>Coral Kitchens</title>
+  <!--
+    The shaker door frame from the Coral Kitchens mark, drawn heavier than the
+    header version: at 16px a hairline outline disappears entirely. Sits on the
+    brand paper rather than transparent so it holds shape on a dark tab bar.
+  -->
+  <rect width="32" height="32" fill="#F4F1EC"/>
+  <g fill="none" stroke="#B7593F" stroke-width="3">
+    <rect x="5.5" y="5.5" width="21" height="21"/>
+    <path d="M12 26.5 V 12 H 26.5" stroke-linecap="square"/>
+  </g>
+</svg>
